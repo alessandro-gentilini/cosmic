@@ -7,7 +7,7 @@
 #include <iostream>
 
 class RunningStat
-// http://www.johndcook.com/standard_deviation.html
+// by John D. Cook, see http://www.johndcook.com/standard_deviation.html
 {
 public:
     RunningStat() : m_n(0) {}
