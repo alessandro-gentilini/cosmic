@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+PROJECT( simple_algs )
+FIND_PACKAGE( OpenCV REQUIRED )
+ADD_EXECUTABLE( simple_algs simple_algs.cpp )
+TARGET_LINK_LIBRARIES( simple_algs ${OpenCV_LIBS} )
+SET(CMAKE_CXX_FLAGS "-std=c++0x")
