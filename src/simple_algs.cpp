@@ -1,3 +1,6 @@
+// Alessandro Gentilini - 2014
+// Experiments for detecting anomalous bright pixels in an image
+
 #include "cv.h"
 #include "highgui.h"
 #include <stdio.h>
