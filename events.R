@@ -27,14 +27,12 @@ df2$mean_img <- NULL
 df2$sd_img <- NULL
 df2 <- melt(df2 ,  id = 'timestamp', variable_name = 'measurement')
 plot(ggplot(df2, aes(timestamp,value)) + geom_line(aes(colour = measurement))+
-      ylab("pixel grey value")+
-       #ggtitle(strptime(df2$timestamp[1],format("%Y%m%d%H%M%OS")))+
+       ylab("pixel grey value")+
        ggtitle(as.Date(df$timestamp[1]))+
-  scale_x_datetime(breaks = "1 hour", minor_breaks="15 min",labels = date_format("%H")) + 
-  #theme(text = element_text(size=20),axis.text.x = element_text(angle=90, vjust=1))+
-      scale_color_hue(breaks=c("maximum","mean","threshold"),label=c(expression(M[i]),expression(bar(M)[i]),expression(bar(M)[i]+10%.%sigma[M][i])))
+       scale_x_datetime(breaks = "1 hour", minor_breaks="15 min",labels = date_format("%H")) + 
+       scale_color_hue(breaks=c("maximum","mean","threshold"),label=c(expression(M[i]),expression(bar(M)[i]),expression(bar(M)[i]+10%.%sigma[M][i])))
 )
-     
+
 which(is.na(df2$timestamp))
 intervals=data.frame(intervals=as.numeric(diff(df2$timestamp)))
 which(is.na(intervals))
