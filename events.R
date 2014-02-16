@@ -17,31 +17,7 @@ df$timestamp = to_POSIXct(df$timestamp)
 df$threshold <- df$mean+10*df$sd
 df$q <- 0
 
-# for ( r in seq(1,nrow(df))){
-#   df$q[r]<-quantile(df[seq(1,r),"maximum"],c(.99))
-# }
-
-# res <- sapply(seq(nrow(df)), function(x) 
-#   quantile(df[seq(x), "maximum"], c(.99)))
-# df <- setNames(cbind(df, res), c(names(df), "q"))
-
 library(ggplot2)
-plot(ggplot(df) + 
-  geom_line(aes(timestamp, maximum)) + 
-  geom_line(aes(timestamp,threshold)) + 
-  geom_line(aes(timestamp,q)) + 
-  ylab("grey") +  
-  scale_x_datetime(breaks = "1 hour", minor_breaks="15 min") + 
-  theme(text = element_text(size=20),axis.text.x = element_text(angle=90, vjust=1)))
-
-df3=df[df$maximum>df$threshold,]
-plot(ggplot(df3) + 
-  geom_point(aes(timestamp, maximum)) + 
-  ylab("grey") +  
-  scale_x_datetime(breaks = "1 hour", minor_breaks="15 min") + 
-  theme(text = element_text(size=20),axis.text.x = element_text(angle=90, vjust=1)))
-
-
 library(reshape)
 df2=df
 df2$minimum <- NULL
