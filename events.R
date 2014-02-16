@@ -1,3 +1,5 @@
+# Alessandro Gentilini - February 2014
+
 png("img_%d.png")
 to_POSIXct <- function(number)
 {
