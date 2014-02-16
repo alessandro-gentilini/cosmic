@@ -1,6 +1,6 @@
 # Alessandro Gentilini - February 2014
 
-png("img_%d.png")
+png(filename="img_%d.png",width=15,height=10,units="cm",res=600)
 to_POSIXct <- function(number)
 {
   str = as.character(number)
@@ -15,10 +15,10 @@ df<-read.csv("stats17.txt",sep=",",head=T)
 df <- na.omit(df)
 df$timestamp = to_POSIXct(df$timestamp)
 df$threshold <- df$mean+10*df$sd
-df$q <- 0
 
 library(ggplot2)
 library(reshape)
+library(scales)
 df2=df
 df2$minimum <- NULL
 df2$q <- NULL
@@ -26,12 +26,12 @@ df2$sd <- NULL
 df2$mean_img <- NULL
 df2$sd_img <- NULL
 df2 <- melt(df2 ,  id = 'timestamp', variable_name = 'measurement')
-# df2$series=as.character(df2$series)
-# df2$series[which(df2$series=="mean")]=expression(M[i])
 plot(ggplot(df2, aes(timestamp,value)) + geom_line(aes(colour = measurement))+
-      ylab("grey value")+
-  scale_x_datetime(breaks = "1 hour", minor_breaks="15 min") + 
-  theme(text = element_text(size=20),axis.text.x = element_text(angle=90, vjust=1))+
+      ylab("pixel grey value")+
+       #ggtitle(strptime(df2$timestamp[1],format("%Y%m%d%H%M%OS")))+
+       ggtitle(as.Date(df$timestamp[1]))+
+  scale_x_datetime(breaks = "1 hour", minor_breaks="15 min",labels = date_format("%H")) + 
+  #theme(text = element_text(size=20),axis.text.x = element_text(angle=90, vjust=1))+
       scale_color_hue(breaks=c("maximum","mean","threshold"),label=c(expression(M[i]),expression(bar(M)[i]),expression(bar(M)[i]+10%.%sigma[M][i])))
 )
      
