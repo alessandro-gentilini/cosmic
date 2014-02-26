@@ -15,6 +15,8 @@ to_POSIXct <- function(number)
   return(r)
 }
 
+
+
 generate_graph <- function(filename)
 {
   df<-read.csv(filename,sep=",",head=T)
@@ -25,7 +27,14 @@ generate_graph <- function(filename)
   n=nrow(df[df$maximum > df$threshold,])
   N=nrow(df)
   dt=difftime(df$timestamp[N],df$timestamp[1],unit="secs")
-  title = sprintf("%s, %d events in %s",as.Date(df$timestamp[1]),n,format(.POSIXct(dt,tz="GMT"), "%H:%M:%S"))
+  elapsed_time = format(.POSIXct(dt,tz="GMT"), "%Hh%Mm%Ss")
+  title = sprintf("%s, %d events in %s",as.Date(df$timestamp[1]),n,elapsed_time)
+  
+  n_events <<- c(n_events,n)
+  seconds <<- c(seconds,dt)
+  elapsed <<- c(elapsed,elapsed_time)
+  
+  
   
   df2=df
   df2$minimum <- NULL
@@ -46,10 +55,17 @@ generate_graph <- function(filename)
   which(is.na(intervals))
   intervals=na.omit(intervals)
   intervals=intervals[intervals>0]
-  print(mean(intervals))
-  print(sd(intervals))
-  hist(intervals[intervals>0])
+  interval_mean <<- c(interval_mean,mean(intervals))
+  interval_sd <<- c(interval_sd,sd(intervals))
+  #hist(intervals[intervals>0])
 }
+
+
+n_events = c()
+seconds = c()
+elapsed = c()
+interval_mean = c()
+interval_sd = c()
 
 op <- options(digits.secs=3)
 #generate_graph("stats8.txt")
@@ -61,4 +77,24 @@ generate_graph("stats14.txt")
 generate_graph("stats15.txt")
 generate_graph("stats16.txt")
 generate_graph("stats17.txt")
+generate_graph("stats18.txt")
+generate_graph("stats19.txt")
+generate_graph("stats20.txt")
+generate_graph("stats21.txt")
+generate_graph("stats22.txt")
+generate_graph("stats23.txt")
+generate_graph("stats24.txt")
 #generate_graph("short.txt")
+
+df <- data.frame(events=n_events,seconds=seconds,elapsed_time=elapsed,interval_mean=interval_mean,interval_sd=interval_sd)
+df$event_per_hour <- df$events/(df$seconds/3600)
+
+print(sprintf("time between image acquisition: mean %f",mean(df$interval_mean)))
+print(sprintf("time between image acquisition: sd %f",mean(df$interval_sd)))
+
+df$seconds <- NULL
+df$interval_mean <- NULL
+df$interval_sd <- NULL
+
+library(xtable)
+xtable(df,include.rownames=F)

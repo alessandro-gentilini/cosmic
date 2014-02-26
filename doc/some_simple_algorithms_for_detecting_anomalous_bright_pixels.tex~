@@ -81,7 +81,7 @@ The summary for the hourly rate event is the following:
   0.700   1.355   1.840   1.991   2.468   4.460
 \end{verbatim}
 
-This table summarize the data collected so far.
+\\This table summarize the data collected so far.
 % latex table generated in R 3.0.2 by xtable 1.7-1 package
 % Wed Feb 26 20:08:57 2014
 \begin{table}[ht]
